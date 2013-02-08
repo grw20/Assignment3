@@ -22,7 +22,6 @@
     [[self.navController navigationBar] setBarStyle:UIBarStyleBlack];
     self.window.rootViewController = self.navController;
     
-    
     [self.window makeKeyAndVisible];
     
     
