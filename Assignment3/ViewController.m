@@ -20,7 +20,7 @@
 {
     [super viewDidLoad];
     
-    self.title = @"Bluth's Banana Stand";
+    self.title = @"Geoff's Banana Stand";
     
     _allSelected = NO;
     
@@ -64,12 +64,16 @@
 //Should remove all of the fruit in the cart.
 -(IBAction)removeAllFruitInCart:(id)sender
 {
-    _cart = [NSMutableArray arrayWithCapacity:0];
-    [_cartView reloadData];
-    
+    if([_cart count] > 0){
+        [_cart removeAllObjects];
+        [_removeAll setEnabled:FALSE];
+        [_selectAll setEnabled:FALSE];
+        [_cartView reloadData];
+    }
 }
 
 //should add 50 bananas to the cart and display them!
+// plus do more
 -(IBAction)fillCartWithBananas:(id)sender
 {
     int newFruitNum = [_cart count] + 50;
@@ -87,6 +91,11 @@
         anonFruit.url = @"http://en.m.wikipedia.org/wiki/Banana";
         [_cart addObject:anonFruit];
     
+    }
+    if([_cart count] > 0)
+    {
+        [_removeAll setEnabled:TRUE];
+        [_selectAll setEnabled:TRUE];
     }
 [_cartView reloadData];
 }
@@ -106,6 +115,10 @@
 
 -(int) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
+    if([_cart count] == 0)
+    {
+        return 1;
+    }
     return [_cart count];
 }
 
@@ -119,11 +132,15 @@
     if([_cart count] == 0){
         cell.textLabel.text = @"No Fruit in Cart";
         cell.detailTextLabel.text = @"";
+        [cell setAccessoryType:UITableViewCellAccessoryNone];
+        _allSelected = FALSE;
+        [_selectAll setTitle:@"Select All"];
         
     } else {
         Fruit * tempFruit = [_cart objectAtIndex:indexPath.row];
         
         cell.textLabel.text = [tempFruit name];
+        
         cell.detailTextLabel.text = [tempFruit color];
         
         if(_allSelected){

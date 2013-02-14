@@ -18,6 +18,8 @@
 
 @property (nonatomic, weak) IBOutlet UIBarButtonItem * selectAll;
 
+@property (nonatomic, weak) IBOutlet UIBarButtonItem * removeAll;
+
 
 
 -(IBAction)selectAllOrNone:(id)sender;
